@@ -1,12 +1,10 @@
 package com.definexpracticum.loanapplicationsystem.dto.request;
 
 import jakarta.validation.constraints.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.Set;
 
 @Data
@@ -23,10 +21,11 @@ public class UserRequest {
     private String citizenId;
 
     @NotBlank
-    private LocalDate birthDate;
+    private Date birthDate;
 
     @NotBlank
     @Size(max = 50)
+    @Email
     private String email;
 
     @NotBlank
