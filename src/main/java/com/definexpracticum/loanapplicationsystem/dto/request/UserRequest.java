@@ -1,5 +1,7 @@
 package com.definexpracticum.loanapplicationsystem.dto.request;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import jakarta.validation.constraints.*;
 import lombok.*;
 
@@ -11,25 +13,22 @@ import java.util.Set;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@ApiModel(value = "User DTO", description = "Test")
 public class UserRequest {
 
     private String firstName;
     private String lastName;
 
-    @NotBlank
-    //@Size(min = 11,max = 11)
+    @ApiModelProperty(required = true)
     private String citizenId;
 
-    @NotBlank
-    private Date birthDate;
+    @ApiModelProperty(required = true)
+    private String birthDate;
 
-    @NotBlank
-    @Size(max = 50)
-    @Email
+    @ApiModelProperty(required = true)
     private String email;
 
-    @NotBlank
-    @Size(max = 120)
+    @ApiModelProperty(required = true)
     private String password;
 
 }

@@ -1,9 +1,9 @@
 package com.definexpracticum.loanapplicationsystem.dto.request;
 
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
+
 import lombok.*;
 
+import javax.validation.constraints.Min;
 import java.math.BigDecimal;
 
 @Data

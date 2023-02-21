@@ -4,6 +4,7 @@ package com.definexpracticum.loanapplicationsystem.controller;
 import com.definexpracticum.loanapplicationsystem.dto.request.UserRequest;
 import com.definexpracticum.loanapplicationsystem.dto.response.UserResponse;
 import com.definexpracticum.loanapplicationsystem.service.UserService;
+import io.swagger.annotations.Api;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,11 @@ import java.util.*;
 
 @RestController
 @RequestMapping("/api/v1")
-public record UserController(UserService userService) {
+@Api(value = "User Service Documentation")
+public class UserController {
+
+    @Autowired
+    private UserService userService;
 
     @Contract(" -> new")
     @GetMapping("/users")
@@ -37,10 +42,11 @@ public record UserController(UserService userService) {
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 
-    @Contract("_ -> new")
     @DeleteMapping(value = "/users/{id}")
-    public @NotNull ResponseEntity<HttpStatus> deleteUserById(@PathVariable Long id){
+    public @NotNull ResponseEntity<Map<String,Boolean>> deleteUserById(@PathVariable Long id){
         userService.deleteUserByUserId(id);
-        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+        Map<String,Boolean> response = new HashMap<>();
+        response.put("Deleted",Boolean.TRUE);
+        return ResponseEntity.ok(response);
     }
 }

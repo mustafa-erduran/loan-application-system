@@ -32,7 +32,7 @@ public class UserService {
     }
 
     public UserResponse findUserByUserId(Long userId){
-        return userConverter.convertUserToUserResponse(userRepository.findById(userId).get());
+        return userConverter.convertUserToUserResponse(userRepository.findById(userId).orElseThrow(()-> new RuntimeException("user not found!")));
     }
 
     public void deleteUserByUserId(Long userId){

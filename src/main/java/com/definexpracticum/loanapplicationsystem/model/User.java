@@ -6,13 +6,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.validator.constraints.UniqueElements;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
-import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.*;
 
 
@@ -30,26 +26,32 @@ public class User implements UserDetails {
 
     @NotBlank
     @Size(max = 15)
+    @Column(name = "first_name")
     private String firstName;
 
     @NotBlank
     @Size(max = 15)
+    @Column(name = "last_name")
     private String lastName;
 
-    @Column(unique = true)
     @Size(max = 11)
+    @Column(name = "citizen_id",unique = true)
     private String citizenId;
 
-    private Date birthDate;
+    @Column(name = "birth_date")
+    @Size(max = 10)
+    private String birthDate;
 
+    @Column(name = "loan_score")
     private Integer loanScore;
 
     @NotBlank
-    @Size(max = 50)
+    @Email
+    @Column(unique = true)
     private String email;
 
     @NotBlank
-    @Size(max = 120)
+    @Size(max = 150)
     private String password;
 
     @Enumerated(value = EnumType.STRING)

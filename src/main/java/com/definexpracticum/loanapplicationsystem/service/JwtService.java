@@ -12,7 +12,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
-import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -21,13 +20,13 @@ import org.springframework.stereotype.Service;
 public class JwtService {
 
     @Value("${SECRET_KEY}")
-    private static String SECRET_KEY;
+    private String SECRET_KEY;
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
     }
 
-    public <T> T extractClaim(String token, @NotNull Function<Claims, T> claimsResolver) {
+    public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = extractAllClaims(token);
         return claimsResolver.apply(claims);
     }
@@ -38,7 +37,7 @@ public class JwtService {
 
     public String generateToken(
             Map<String, Object> extraClaims,
-            @NotNull UserDetails userDetails
+            UserDetails userDetails
     ) {
         return Jwts
                 .builder()
@@ -50,7 +49,7 @@ public class JwtService {
                 .compact();
     }
 
-    public boolean isTokenValid(String token, @NotNull UserDetails userDetails) {
+    public boolean isTokenValid(String token, UserDetails userDetails) {
         final String username = extractUsername(token);
         return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);
     }
@@ -72,7 +71,7 @@ public class JwtService {
                 .getBody();
     }
 
-    private @NotNull Key getSignInKey() {
+    private Key getSignInKey() {
         byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
         return Keys.hmacShaKeyFor(keyBytes);
     }

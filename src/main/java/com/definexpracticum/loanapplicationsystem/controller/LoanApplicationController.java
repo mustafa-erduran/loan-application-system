@@ -1,6 +1,33 @@
 package com.definexpracticum.loanapplicationsystem.controller;
 
+import com.definexpracticum.loanapplicationsystem.dto.request.LoanApplicationRequest;
+import com.definexpracticum.loanapplicationsystem.dto.response.LoanApplicationResponse;
+import com.definexpracticum.loanapplicationsystem.dto.response.LoanResponse;
+import com.definexpracticum.loanapplicationsystem.model.Loan;
+import com.definexpracticum.loanapplicationsystem.service.LoanApplicationService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Map;
+
+@RestController
+@RequestMapping("api/v1/loan")
 public class LoanApplicationController {
 
+    @Autowired
+    private LoanApplicationService loanApplicationService;
+
+
+    @PostMapping("/application")
+    public ResponseEntity<LoanApplicationResponse> loanApplication(@RequestBody LoanApplicationRequest request){
+        return ResponseEntity.ok(loanApplicationService.loanCollector(request));
+    }
+
+    @GetMapping("/result/{citizenId}/{birthDate}")
+    public ResponseEntity<List<LoanResponse>> getLoanResult(@PathVariable String citizenId, @PathVariable String birthDate){
+        return ResponseEntity.ok(loanApplicationService.getLoanResult(citizenId,birthDate));
+    }
 
 }
