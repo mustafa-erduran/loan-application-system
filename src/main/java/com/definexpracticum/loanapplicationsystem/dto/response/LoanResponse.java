@@ -2,11 +2,13 @@ package com.definexpracticum.loanapplicationsystem.dto.response;
 
 import com.definexpracticum.loanapplicationsystem.model.ELoanStatus;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Date;
 
-@Data
+@Getter
+@Setter
 @Builder
 public class LoanResponse {
 

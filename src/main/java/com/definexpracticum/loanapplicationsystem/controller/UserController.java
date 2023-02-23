@@ -1,6 +1,8 @@
 package com.definexpracticum.loanapplicationsystem.controller;
 
 import com.definexpracticum.loanapplicationsystem.dto.response.UserResponse;
+import com.definexpracticum.loanapplicationsystem.exception.ResourceNotFoundRuntimeException;
+import com.definexpracticum.loanapplicationsystem.model.User;
 import com.definexpracticum.loanapplicationsystem.service.UserService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.jetbrains.annotations.Contract;
@@ -26,7 +28,7 @@ public class UserController {
     }
 
     @GetMapping("/users/{id}")
-    public @NotNull ResponseEntity<UserResponse> getUserById(@PathVariable Long id){
+    public @NotNull ResponseEntity<UserResponse> getUserById(@PathVariable Long id) throws ResourceNotFoundRuntimeException {
         return ResponseEntity.ok(userService.findUserByUserId(id));
     }
 

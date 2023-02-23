@@ -37,6 +37,7 @@ public class User implements UserDetails {
     @Column(name = "last_name")
     private String lastName;
 
+    @NotBlank
     @Size(max = 11)
     @Column(name = "citizen_id",unique = true)
     private String citizenId;
@@ -54,7 +55,7 @@ public class User implements UserDetails {
     private String email;
 
     @NotBlank
-    @Size(max = 150)
+    @Size(min = 6, max = 150)
     private String password;
 
     @Enumerated(value = EnumType.STRING)

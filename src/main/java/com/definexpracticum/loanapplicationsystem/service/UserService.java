@@ -1,6 +1,7 @@
 package com.definexpracticum.loanapplicationsystem.service;
 
 import com.definexpracticum.loanapplicationsystem.dto.response.UserResponse;
+import com.definexpracticum.loanapplicationsystem.exception.ResourceNotFoundRuntimeException;
 import com.definexpracticum.loanapplicationsystem.model.User;
 import com.definexpracticum.loanapplicationsystem.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -46,12 +47,19 @@ public class UserService {
     }
 
     public UserResponse findUserByUserId(Long userId){
-        return convertUserToUserResponse(userRepository.findById(userId).orElseThrow(()-> new RuntimeException("user not found!")));
+        return convertUserToUserResponse(userRepository.findById(userId).orElseThrow(()-> new ResourceNotFoundRuntimeException("user not found!")));
+    }
+
+    public UserResponse findUserByCitizenId(String citizenId){
+        return convertUserToUserResponse(userRepository.findByCitizenId(citizenId).orElseThrow(()-> new ResourceNotFoundRuntimeException("user not found!")));
     }
 
     public void deleteUserByUserId(Long userId){
-        userRepository.deleteById(userId);
-        logger.info("User has been deleted! User id: {} " , userId);
+        if(userRepository.existsById(userId)){
+            userRepository.deleteById(userId);
+            logger.info("User has been deleted! User id: {} " , userId);
+        }
+
     }
 
     public void deleteAllUsers(){

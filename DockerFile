@@ -1,0 +1,4 @@
+FROM openjdk:8-jdk-alpine
+MAINTAINER mustafa-erduran
+COPY target/loan-application-system.jar loan-application-system.jar
+ENTRYPOINT ["java","-jar","/loan-application-system.jar"]

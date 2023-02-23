@@ -19,16 +19,5 @@ public class LoanApplicationSystemApplication {
 		SpringApplication.run(LoanApplicationSystemApplication.class, args);
 	}
 
-	@Bean
-	public OpenAPI customOpenApi(@Value("${application-description}") String description,
-								 @Value("${application-version}") String version){
-		return new OpenAPI()
-				.info(new Info()
-						.title("Loan Application System API")
-						.version(version)
-						.description(description)
-						.license(new License().name("Loan Application System API License")));
-
-	}
 
 }
