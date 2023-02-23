@@ -1,7 +1,7 @@
 package com.definexpracticum.loanapplicationsystem.service;
 
-import com.definexpracticum.loanapplicationsystem.converter.UserConverter;
 import com.definexpracticum.loanapplicationsystem.dto.response.UserResponse;
+import com.definexpracticum.loanapplicationsystem.model.User;
 import com.definexpracticum.loanapplicationsystem.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.LoggerFactory;
@@ -18,21 +18,35 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
-    @Autowired
-    private UserConverter userConverter;
+
+    public UserService(UserRepository userRepository){
+        this.userRepository = userRepository;
+    }
+
     private final Logger logger = LoggerFactory.getLogger(UserService.class);
+
+    private UserResponse convertUserToUserResponse(User savedUser){
+        return UserResponse.builder()
+                .id(savedUser.getId())
+                .firstName(savedUser.getFirstName())
+                .lastName(savedUser.getLastName())
+                .birthDate(savedUser.getBirthDate())
+                .citizenId(savedUser.getCitizenId())
+                .email(savedUser.getEmail())
+                .build();
+    }
 
     public List<UserResponse> getAllUsers() {
         List<UserResponse> userList = new ArrayList<>();
 
         for (var user : userRepository.findAll()) {
-            userList.add(userConverter.convertUserToUserResponse(user));
+            userList.add(convertUserToUserResponse(user));
         }
         return userList;
     }
 
     public UserResponse findUserByUserId(Long userId){
-        return userConverter.convertUserToUserResponse(userRepository.findById(userId).orElseThrow(()-> new RuntimeException("user not found!")));
+        return convertUserToUserResponse(userRepository.findById(userId).orElseThrow(()-> new RuntimeException("user not found!")));
     }
 
     public void deleteUserByUserId(Long userId){

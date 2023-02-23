@@ -2,8 +2,9 @@ package com.definexpracticum.loanapplicationsystem.service;
 
 
 import com.definexpracticum.loanapplicationsystem.dto.request.AuthenticationRequest;
-import com.definexpracticum.loanapplicationsystem.dto.request.UserRequest;
+import com.definexpracticum.loanapplicationsystem.dto.request.RegisterRequest;
 import com.definexpracticum.loanapplicationsystem.dto.response.AuthenticationResponse;
+import com.definexpracticum.loanapplicationsystem.dto.response.RegisterResponse;
 import com.definexpracticum.loanapplicationsystem.model.ERole;
 import com.definexpracticum.loanapplicationsystem.model.User;
 import com.definexpracticum.loanapplicationsystem.repository.UserRepository;
@@ -26,33 +27,43 @@ public class AuthenticationService {
 
     @Autowired
     private UserRepository repository;
+
     @Autowired
     private PasswordEncoder passwordEncoder;
+
     @Autowired
     private JwtService jwtService;
+
     @Autowired
     private AuthenticationManager authenticationManager;
+
     @Autowired
     private LoanScoreService loanScoreService;
 
-    public AuthenticationResponse register(UserRequest request) {
+    private RegisterResponse convertRegisterRequestToRegisterResponse(RegisterRequest registerRequest){
+        return RegisterResponse.builder()
+                .firstName(registerRequest.getFirstName())
+                .lastName((registerRequest.getLastName()))
+                .email(registerRequest.getEmail())
+                .citizenId(registerRequest.getCitizenId())
+                .birthDate(registerRequest.getBirthDate())
+                .build();
+    }
 
-        var user = User.builder()
-                .firstName(request.getFirstName())
-                .lastName(request.getLastName())
-                .email(request.getEmail())
-                .citizenId(request.getCitizenId())
-                .birthDate(request.getBirthDate())
+    public RegisterResponse register(RegisterRequest registerRequest) {
+        User user = User.builder()
+                .firstName(registerRequest.getFirstName())
+                .lastName(registerRequest.getLastName())
+                .email(registerRequest.getEmail())
+                .citizenId(registerRequest.getCitizenId())
+                .birthDate(registerRequest.getBirthDate())
                 .loanScore(loanScoreService.getLoanScore())
-                .password(passwordEncoder.encode(request.getPassword()))
+                .password(passwordEncoder.encode(registerRequest.getPassword()))
                 .roles(ERole.ROLE_USER)
                 .build();
         repository.save(user);
         logger.info("User has been created!");
-        var jwtToken = jwtService.generateToken(user);
-        return AuthenticationResponse.builder()
-                .token(jwtToken)
-                .build();
+        return convertRegisterRequestToRegisterResponse(registerRequest);
     }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
@@ -62,14 +73,12 @@ public class AuthenticationService {
                         request.getPassword()
                 )
         );
-        var user = repository.findByEmail(request.getEmail())
-                .orElseThrow();
+        User user = repository.findByEmail(request.getEmail()).get();
         logger.info("Login successfully!");
-        var jwtToken = jwtService.generateToken(user);
-        return AuthenticationResponse.builder()
-                .token(jwtToken)
-                .build();
+        String jwtToken = jwtService.generateToken(user);
+        return new AuthenticationResponse(jwtToken);
     }
+
 
 
 }

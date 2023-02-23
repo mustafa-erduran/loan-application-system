@@ -1,8 +1,9 @@
 package com.definexpracticum.loanapplicationsystem.controller;
 
 import com.definexpracticum.loanapplicationsystem.dto.request.AuthenticationRequest;
-import com.definexpracticum.loanapplicationsystem.dto.request.UserRequest;
+import com.definexpracticum.loanapplicationsystem.dto.request.RegisterRequest;
 import com.definexpracticum.loanapplicationsystem.dto.response.AuthenticationResponse;
+import com.definexpracticum.loanapplicationsystem.dto.response.RegisterResponse;
 import com.definexpracticum.loanapplicationsystem.service.AuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +17,7 @@ public class AuthenticationController {
     private AuthenticationService service;
 
     @PostMapping("/register")
-    public ResponseEntity<AuthenticationResponse> register(@RequestBody UserRequest request) {
+    public ResponseEntity<RegisterResponse> register(@RequestBody RegisterRequest request) {
         return ResponseEntity.ok(service.register(request));
     }
 

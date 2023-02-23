@@ -1,15 +1,10 @@
 package com.definexpracticum.loanapplicationsystem.dto.request;
 
-
-import lombok.*;
-
-import javax.validation.constraints.Min;
-import java.math.BigDecimal;
-
+import jakarta.validation.constraints.Min;
+import lombok.Builder;
+import lombok.Data;
 @Data
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
 public class LoanApplicationRequest {
 
     private Long userId;

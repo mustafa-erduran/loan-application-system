@@ -9,7 +9,6 @@ import com.definexpracticum.loanapplicationsystem.model.Loan;
 import com.definexpracticum.loanapplicationsystem.model.User;
 import com.definexpracticum.loanapplicationsystem.repository.LoanRepository;
 import com.definexpracticum.loanapplicationsystem.repository.UserRepository;
-import jakarta.persistence.criteria.CriteriaBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,7 +41,7 @@ public class LoanApplicationService {
     @Autowired
     private LoanRepository loanRepository;
 
-    private Integer LoanCalculator(Integer income, Integer loanGuarantee, Integer loanScore){
+    private Integer loanCalculator(Integer income, Integer loanGuarantee, Integer loanScore){
         Integer loanLimit;
         if(loanScore < MIN_SCORE){
             loanLimit = 0;
@@ -68,7 +67,7 @@ public class LoanApplicationService {
     public LoanApplicationResponse loanCollector(LoanApplicationRequest request){
         ELoanStatus status;
         User user = userRepository.findById(request.getUserId()).orElseThrow(()-> new RuntimeException("user not found!"));
-        Integer loanLimit = LoanCalculator(request.getIncome(),request.getLoanGuarantee(),user.getLoanScore());
+        Integer loanLimit = loanCalculator(request.getIncome(),request.getLoanGuarantee(),user.getLoanScore());
         status = (loanLimit == 0) ? ELoanStatus.RED : ELoanStatus.ONAY;
         Loan newLoanApplication = Loan.builder()
                 .user(user)

@@ -1,15 +1,12 @@
 package com.definexpracticum.loanapplicationsystem.dto.response;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
 
-@Data
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
 public class AuthenticationResponse {
 
+    public AuthenticationResponse(String token){
+        this.token = token;
+    }
+    @Getter
     private String token;
 }

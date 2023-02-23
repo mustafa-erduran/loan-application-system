@@ -3,16 +3,16 @@ package com.definexpracticum.loanapplicationsystem.controller;
 import com.definexpracticum.loanapplicationsystem.dto.request.LoanApplicationRequest;
 import com.definexpracticum.loanapplicationsystem.dto.response.LoanApplicationResponse;
 import com.definexpracticum.loanapplicationsystem.dto.response.LoanResponse;
-import com.definexpracticum.loanapplicationsystem.model.Loan;
 import com.definexpracticum.loanapplicationsystem.service.LoanApplicationService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
+@SecurityRequirement(name = "Bearer Authentication")
 @RequestMapping("api/v1/loan")
 public class LoanApplicationController {
 
