@@ -19,9 +19,10 @@ public class ErrorDetails {
 
     }
 
-    public List<String> getErrors(){
+    public List<String> getErrors() {
         return errors;
     }
+
     public Date getTimestamp() {
         return timestamp;
     }

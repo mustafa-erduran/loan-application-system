@@ -8,6 +8,7 @@ import com.definexpracticum.loanapplicationsystem.model.Loan;
 import com.definexpracticum.loanapplicationsystem.model.User;
 import com.definexpracticum.loanapplicationsystem.repository.LoanRepository;
 import com.definexpracticum.loanapplicationsystem.repository.UserRepository;
+import com.definexpracticum.loanapplicationsystem.service.implementation.LoanApplicationServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -27,7 +28,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 class LoanApplicationServiceTest {
 
     @InjectMocks
-    private LoanApplicationService loanApplicationService;
+    private LoanApplicationServiceImpl loanApplicationServiceImpl;
 
     @Mock
     private UserRepository userRepository;
@@ -61,7 +62,7 @@ class LoanApplicationServiceTest {
                 .build();
 
         given(userRepository.findById(1L)).willReturn(Optional.ofNullable(user));
-        LoanApplicationResponse loanApplicationResponse = loanApplicationService.loanCollector(request);
+        LoanApplicationResponse loanApplicationResponse = loanApplicationServiceImpl.loanCollector(request);
 
         assertThat(loanApplicationResponse.getCitizenId()).isEqualTo("testCitizenId");
         assertThat(loanApplicationResponse.getMessage()).isEqualTo("Loan application has been received.We will inform you about loan status in future.");
@@ -79,7 +80,7 @@ class LoanApplicationServiceTest {
 
         List<Loan> loans = Arrays.asList(loan);
         given(loanRepository.findByUserId(user.getId())).willReturn(Optional.of(loans));
-        List<LoanResponse> loanResponses = loanApplicationService.getLoanResult(user.getId());
+        List<LoanResponse> loanResponses = loanApplicationServiceImpl.getLoanResult(user.getId());
 
         assertThat(loanResponses.size()).isNotZero();
 

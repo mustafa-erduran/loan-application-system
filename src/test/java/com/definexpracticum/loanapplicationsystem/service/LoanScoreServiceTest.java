@@ -1,5 +1,6 @@
 package com.definexpracticum.loanapplicationsystem.service;
 
+import com.definexpracticum.loanapplicationsystem.service.implementation.LoanScoreServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -11,7 +12,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 class LoanScoreServiceTest {
 
     @InjectMocks
-    private LoanScoreService service;
+    private LoanScoreServiceImpl service;
 
     @Test
     void getLoanScore() {

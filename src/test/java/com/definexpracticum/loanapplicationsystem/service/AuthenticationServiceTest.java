@@ -6,18 +6,17 @@ import com.definexpracticum.loanapplicationsystem.dto.response.AuthenticationRes
 import com.definexpracticum.loanapplicationsystem.dto.response.RegisterResponse;
 import com.definexpracticum.loanapplicationsystem.model.User;
 import com.definexpracticum.loanapplicationsystem.repository.UserRepository;
-import org.junit.jupiter.api.BeforeEach;
+import com.definexpracticum.loanapplicationsystem.service.implementation.AuthenticationServiceImpl;
+import com.definexpracticum.loanapplicationsystem.service.implementation.JwtServiceImpl;
+import com.definexpracticum.loanapplicationsystem.service.implementation.LoanScoreServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
-import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.junit.jupiter.api.Assertions;
 
 import java.util.Optional;
 
@@ -29,7 +28,7 @@ import static org.mockito.Mockito.*;
 class AuthenticationServiceTest {
 
     @InjectMocks
-    private AuthenticationService authenticationService;
+    private AuthenticationServiceImpl authenticationServiceImpl;
 
     @Mock
     private UserRepository repository;
@@ -38,13 +37,13 @@ class AuthenticationServiceTest {
     private PasswordEncoder passwordEncoder;
 
     @Mock
-    private JwtService jwtService;
+    private JwtServiceImpl jwtServiceImpl;
 
     @Mock
     private AuthenticationManager authenticationManager;
 
     @Mock
-    private LoanScoreService loanScoreService;
+    private LoanScoreServiceImpl loanScoreServiceImpl;
 
     @Test
     void register() {
@@ -56,7 +55,7 @@ class AuthenticationServiceTest {
                 .citizenId("Test-citizenId")
                 .password("Test-password")
                 .build();
-        RegisterResponse registerResponse = authenticationService.register(request);
+        RegisterResponse registerResponse = authenticationServiceImpl.register(request);
 
         ArgumentCaptor<User> registerRequestArgumentCaptor = ArgumentCaptor.forClass(User.class);
         verify(repository).save(registerRequestArgumentCaptor.capture());
@@ -83,7 +82,7 @@ class AuthenticationServiceTest {
                 .build();
 
         given(repository.findByEmail(request.getEmail())).willReturn(Optional.of(user));
-        AuthenticationResponse authenticationResponse = authenticationService.authenticate(request);
+        AuthenticationResponse authenticationResponse = authenticationServiceImpl.authenticate(request);
         assertThat(authenticationResponse).isNotNull();
 
     }

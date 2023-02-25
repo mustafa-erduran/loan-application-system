@@ -1,11 +1,8 @@
 package com.definexpracticum.loanapplicationsystem.controller;
 
 import com.definexpracticum.loanapplicationsystem.dto.response.UserResponse;
-import com.definexpracticum.loanapplicationsystem.exception.ResourceNotFoundRuntimeException;
-import com.definexpracticum.loanapplicationsystem.model.User;
 import com.definexpracticum.loanapplicationsystem.service.UserService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
-import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,21 +25,24 @@ public class UserController {
     }
 
     @GetMapping("/users/{id}")
-    public @NotNull ResponseEntity<UserResponse> getUserById(@PathVariable Long id) throws ResourceNotFoundRuntimeException {
+    public @NotNull ResponseEntity<UserResponse> getUserById(@PathVariable Long id) {
         return ResponseEntity.ok(userService.findUserByUserId(id));
     }
 
     @DeleteMapping(value = "/users")
-    public @NotNull ResponseEntity<HttpStatus> deleteAllUsers(){
+    public @NotNull ResponseEntity<HttpStatus> deleteAllUsers() {
         userService.deleteAllUsers();
         return (ResponseEntity<HttpStatus>) ResponseEntity.accepted();
     }
 
     @DeleteMapping(value = "/users/{id}")
-    public @NotNull ResponseEntity<Map<String,Boolean>> deleteUserById(@PathVariable Long id){
-        userService.deleteUserByUserId(id);
-        Map<String,Boolean> response = new HashMap<>();
-        response.put("Deleted",Boolean.TRUE);
+    public @NotNull ResponseEntity<Map<String, Boolean>> deleteUserById(@PathVariable Long id) {
+        Map<String, Boolean> response = new HashMap<>();
+        Boolean result = userService.deleteUserByUserId(id);
+        if (result) {
+            response.put("Deleted", Boolean.TRUE);
+        } else
+            response.put("user not found with id: "+ id, Boolean.FALSE);
         return ResponseEntity.ok(response);
     }
 }

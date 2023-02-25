@@ -4,6 +4,7 @@ package com.definexpracticum.loanapplicationsystem.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,24 +30,21 @@ public class User implements UserDetails {
 
     @NotBlank
     @Size(max = 15)
-    @Column(name = "first_name")
     private String firstName;
 
     @NotBlank
     @Size(max = 15)
-    @Column(name = "last_name")
     private String lastName;
 
     @NotBlank
     @Size(max = 11)
-    @Column(name = "citizen_id",unique = true)
+    @Column(unique = true)
     private String citizenId;
 
-    @Column(name = "birth_date")
-    @Size(max = 10)
+    @NotBlank
+    @Pattern(regexp = "^\\d{4}\\-(0?[1-9]|1[012])\\-(0?[1-9]|[12][0-9]|3[01])$")
     private String birthDate;
 
-    @Column(name = "loan_score")
     private Integer loanScore;
 
     @NotBlank

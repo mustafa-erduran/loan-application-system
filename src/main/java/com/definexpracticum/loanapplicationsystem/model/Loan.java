@@ -17,7 +17,7 @@ import java.util.Date;
 @Builder
 @Entity
 @Table(name = "loans")
-public class Loan{
+public class Loan {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,11 +26,9 @@ public class Loan{
     @Enumerated(value = EnumType.STRING)
     private ELoanStatus status;
 
-    @Column(name = "loan_limit")
     private Integer loanLimit;
 
     @CreationTimestamp
-    @Column(name = "application_date")
     private Date applicationDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
