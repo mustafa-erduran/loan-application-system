@@ -8,6 +8,8 @@ import com.definexpracticum.loanapplicationsystem.model.ERole;
 import com.definexpracticum.loanapplicationsystem.model.User;
 import com.definexpracticum.loanapplicationsystem.repository.UserRepository;
 import com.definexpracticum.loanapplicationsystem.service.AuthenticationService;
+import com.definexpracticum.loanapplicationsystem.service.JwtService;
+import com.definexpracticum.loanapplicationsystem.service.LoanScoreService;
 import lombok.extern.log4j.Log4j2;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,13 +32,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private PasswordEncoder passwordEncoder;
 
     @Autowired
-    private JwtServiceImpl jwtServiceImpl;
+    private JwtService jwtService;
 
     @Autowired
     private AuthenticationManager authenticationManager;
 
     @Autowired
-    private LoanScoreServiceImpl loanScoreServiceImpl;
+    private LoanScoreService loanScoreService;
 
     @Override
     public RegisterResponse register(RegisterRequest registerRequest) {
@@ -46,7 +48,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .email(registerRequest.getEmail())
                 .citizenId(registerRequest.getCitizenId())
                 .birthDate(registerRequest.getBirthDate())
-                .loanScore(loanScoreServiceImpl.getLoanScore())
+                .loanScore(loanScoreService.getLoanScore())
                 .password(passwordEncoder.encode(registerRequest.getPassword()))
                 .roles(ERole.ROLE_USER)
                 .build();
@@ -65,7 +67,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         );
         User user = repository.findByEmail(request.getEmail()).get();
         logger.info("Login successfully!");
-        String jwtToken = jwtServiceImpl.generateToken(user);
+        String jwtToken = jwtService.generateToken(user);
         return new AuthenticationResponse(jwtToken);
     }
 

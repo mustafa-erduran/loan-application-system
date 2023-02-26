@@ -72,6 +72,7 @@ public class UserServiceImpl implements UserService {
                 .birthDate(savedUser.getBirthDate())
                 .citizenId(savedUser.getCitizenId())
                 .email(savedUser.getEmail())
+                .loanScore(savedUser.getLoanScore())
                 .build();
     }
 

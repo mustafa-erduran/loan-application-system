@@ -15,4 +15,5 @@ public class UserResponse {
     private String birthDate;
     private String citizenId;
     private String email;
+    private Integer loanScore;
 }
