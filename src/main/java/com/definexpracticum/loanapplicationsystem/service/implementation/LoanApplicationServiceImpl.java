@@ -80,9 +80,9 @@ public class LoanApplicationServiceImpl implements LoanApplicationService {
             loanLimit = 0;
         } else if (loanScore >= MIN_SCORE && loanScore < MAX_SCORE && income < MIN_INCOME) {
             loanLimit = LOAN_LIMIT_10K + loanGuarantee / 10;
-        } else if (loanScore > MIN_SCORE && loanScore < MAX_SCORE && income >= MIN_INCOME && income <= MAX_INCOME) {
+        } else if (loanScore >= MIN_SCORE && loanScore < MAX_SCORE && income >= MIN_INCOME && income <= MAX_INCOME) {
             loanLimit = LOAN_LIMIT_20K + loanGuarantee / 5;
-        } else if (loanScore > MIN_SCORE && loanScore < MAX_SCORE && income > MAX_INCOME) {
+        } else if (loanScore >= MIN_SCORE && loanScore < MAX_SCORE && income > MAX_INCOME) {
             loanLimit = (income * LOAN_LIMIT_COEFFICIENT / 2) + (loanGuarantee / 4);
         } else if (loanScore >= MAX_SCORE) {
             loanLimit = (income * LOAN_LIMIT_COEFFICIENT) + loanGuarantee / 2;
