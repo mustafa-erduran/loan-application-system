@@ -2,9 +2,11 @@
 This is a loan application system that allows users to apply for loans and view their loan status.
 
 ## Technologies Used
+* Monolithic Architecture
 * Java 17
 * Spring Boot 3.0.1
 * Spring Security
+* JPA
 * MySQL 8.0
 * Docker
 * JWT
