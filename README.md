@@ -45,6 +45,3 @@ Start the Docker containers (The docker compose up command automatically creates
 
 Contributing
 If you'd like to contribute to this project, please fork the repository and submit a pull request with your changes.
-
-License
-This project is licensed under the MIT License - see the LICENSE.md file for details.
