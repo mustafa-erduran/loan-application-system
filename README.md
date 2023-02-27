@@ -10,6 +10,7 @@ This is a loan application system that allows users to apply for loans and view 
 * MySQL 8.0
 * Docker
 * JWT
+* JUNIT
 * Swagger
 ## API Documentation
 * The API documentation for this application is available at http://localhost:8080/swagger-ui/index.html
