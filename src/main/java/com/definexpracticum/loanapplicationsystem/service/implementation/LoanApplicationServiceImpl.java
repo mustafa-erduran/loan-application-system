@@ -55,7 +55,6 @@ public class LoanApplicationServiceImpl implements LoanApplicationService {
     @Override
     public List<LoanResponse> getLoanResult(String citizenId, String birthDate) {
         User user = userRepository.findByCitizenIdAndBirthDate(citizenId,birthDate).orElseThrow(() -> new ResourceNotFoundRuntimeException("user not found!"));
-
         return user.getLoans().stream().map(this::loanToLoanResponse).collect(Collectors.toList());
     }
 
