@@ -10,5 +10,6 @@ public interface LoanApplicationService {
 
     public LoanApplicationResponse loanCollector(LoanApplicationRequest request);
 
-    public List<LoanResponse> getLoanResult(Long userId);
+    public List<LoanResponse> getLoanResult(String citizenId, String birthDate);
+
 }

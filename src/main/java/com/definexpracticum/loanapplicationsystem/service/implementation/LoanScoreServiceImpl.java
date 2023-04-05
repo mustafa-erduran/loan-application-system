@@ -10,7 +10,7 @@ import java.util.Random;
 @Service
 public class LoanScoreServiceImpl implements LoanScoreService {
 
-    private static List<Integer> scoreList = Arrays.asList(450, 330, 3000, 500, 750, 1000, 100, 2000, 850);
+    private static final List<Integer> scoreList = Arrays.asList(450, 330, 3000, 500, 750, 1000, 100, 2000, 850);
 
     private Integer randomIndexGenerator() {
         Random randomIndex = new Random();

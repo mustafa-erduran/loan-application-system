@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -45,33 +46,24 @@ public class LoanApplicationServiceImpl implements LoanApplicationService {
         User user = userRepository.findById(request.getUserId()).orElseThrow(() -> new ResourceNotFoundRuntimeException("user not found!"));
         Integer loanLimit = loanCalculator(request.getIncome(), request.getLoanGuarantee(), user.getLoanScore());
         status = (loanLimit == 0) ? ELoanStatus.RED : ELoanStatus.ONAY;
-        Loan newLoanApplication = Loan.builder()
-                .user(user)
-                .loanLimit(loanLimit)
-                .status(status)
-                .build();
+        Loan newLoanApplication = Loan.builder().user(user).loanLimit(loanLimit).status(status).build();
         loanRepository.save(newLoanApplication);
         logger.info("Loan application saved!");
-        return LoanApplicationResponse.builder()
-                .applicationId(newLoanApplication.getId())
-                .citizenId(user.getCitizenId())
-                .message("Loan application has been received.We will inform you about loan status in future.")
-                .build();
+        return LoanApplicationResponse.builder().applicationId(newLoanApplication.getId()).citizenId(user.getCitizenId()).message("Loan application has been received.We will inform you about loan status in future.").build();
     }
 
     @Override
-    public List<LoanResponse> getLoanResult(Long userId) {
-        List<LoanResponse> loanResponses = new ArrayList<>();
-        List<Loan> loans = loanRepository.findByUserId(userId).orElseThrow(() -> new ResourceNotFoundRuntimeException("loan not found!"));
-        for (Loan loan : loans) {
-            loanResponses.add(LoanResponse.builder()
-                    .loanLimit(loan.getLoanLimit())
-                    .status(loan.getStatus())
-                    .applicationDate(loan.getApplicationDate())
-                    .build());
-        }
-        return loanResponses;
+    public List<LoanResponse> getLoanResult(String citizenId, String birthDate) {
+        User user = userRepository.findByCitizenIdAndBirthDate(citizenId,birthDate).orElseThrow(() -> new ResourceNotFoundRuntimeException("user not found!"));
+        return user.getLoans().stream().map(this::loanToLoanResponse).collect(Collectors.toList());
+    }
 
+    private LoanResponse loanToLoanResponse(Loan loan) {
+        return LoanResponse.builder()
+                .loanLimit(loan.getLoanLimit())
+                .status(loan.getStatus())
+                .applicationDate(loan.getApplicationDate())
+                .build();
     }
 
     private Integer loanCalculator(Integer income, Integer loanGuarantee, Integer loanScore) {

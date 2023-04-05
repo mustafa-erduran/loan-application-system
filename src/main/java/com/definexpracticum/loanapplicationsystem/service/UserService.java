@@ -1,6 +1,7 @@
 package com.definexpracticum.loanapplicationsystem.service;
 
 import com.definexpracticum.loanapplicationsystem.dto.response.UserResponse;
+import com.definexpracticum.loanapplicationsystem.model.Loan;
 
 import java.util.List;
 

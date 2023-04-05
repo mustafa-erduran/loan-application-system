@@ -59,6 +59,9 @@ public class User implements UserDetails {
     @Enumerated(value = EnumType.STRING)
     private ERole roles;
 
+    @OneToMany(fetch = FetchType.LAZY)
+    private List<Loan> loans;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(roles.name()));

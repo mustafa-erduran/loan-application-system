@@ -5,6 +5,7 @@ import com.definexpracticum.loanapplicationsystem.exception.ResourceNotFoundRunt
 import com.definexpracticum.loanapplicationsystem.model.User;
 import com.definexpracticum.loanapplicationsystem.repository.UserRepository;
 import com.definexpracticum.loanapplicationsystem.service.UserService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
@@ -15,22 +16,17 @@ import java.util.*;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
-    @Autowired
-    private UserRepository userRepository;
-
-    public UserServiceImpl(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+    private final UserRepository userRepository;
 
     private final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
     @Override
     public List<UserResponse> getAllUsers() {
         List<UserResponse> userList = new ArrayList<>();
-
-        for (var user : userRepository.findAll()) {
+       for (var user : userRepository.findAll()) {
             userList.add(convertUserToUserResponse(user));
         }
         return userList;
