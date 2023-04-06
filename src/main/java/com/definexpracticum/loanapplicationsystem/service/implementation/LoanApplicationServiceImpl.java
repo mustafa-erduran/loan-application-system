@@ -10,18 +10,18 @@ import com.definexpracticum.loanapplicationsystem.model.User;
 import com.definexpracticum.loanapplicationsystem.repository.LoanRepository;
 import com.definexpracticum.loanapplicationsystem.repository.UserRepository;
 import com.definexpracticum.loanapplicationsystem.service.LoanApplicationService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class LoanApplicationServiceImpl implements LoanApplicationService {
 
     private static final Integer MIN_SCORE = 500;
@@ -34,11 +34,9 @@ public class LoanApplicationServiceImpl implements LoanApplicationService {
 
     private final Logger logger = LoggerFactory.getLogger(LoanApplicationServiceImpl.class);
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    @Autowired
-    private LoanRepository loanRepository;
+    private final LoanRepository loanRepository;
 
     @Override
     public LoanApplicationResponse loanCollector(LoanApplicationRequest request) {
