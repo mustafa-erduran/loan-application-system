@@ -6,16 +6,17 @@ import com.definexpracticum.loanapplicationsystem.dto.response.AuthenticationRes
 import com.definexpracticum.loanapplicationsystem.dto.response.RegisterResponse;
 import com.definexpracticum.loanapplicationsystem.service.AuthenticationService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/auth")
+@RequiredArgsConstructor
 public class AuthenticationController {
 
-    @Autowired
-    private AuthenticationService service;
+    private final AuthenticationService service;
 
     @PostMapping("/register")
     public ResponseEntity<RegisterResponse> register(@Valid @RequestBody RegisterRequest request) {

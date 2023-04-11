@@ -14,6 +14,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.amqp.core.AmqpTemplate;
+import org.springframework.amqp.core.DirectExchange;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -38,6 +41,13 @@ public class LoanApplicationServiceImpl implements LoanApplicationService {
 
     private final LoanRepository loanRepository;
 
+    private final DirectExchange directExchange;
+
+    private final AmqpTemplate rabbitMqTemplate;
+
+    @Value("${sample.rabbitmq.routingKey}")
+    private static String routingKey;
+
     @Override
     public LoanApplicationResponse loanCollector(LoanApplicationRequest request) {
         ELoanStatus status;
@@ -47,6 +57,7 @@ public class LoanApplicationServiceImpl implements LoanApplicationService {
         Loan newLoanApplication = Loan.builder().user(user).loanLimit(loanLimit).status(status).build();
         loanRepository.save(newLoanApplication);
         logger.info("Loan application saved!");
+        rabbitMqTemplate.convertAndSend(directExchange.getName(),routingKey,newLoanApplication);
         return LoanApplicationResponse.builder().applicationId(newLoanApplication.getId()).citizenId(user.getCitizenId()).message("Loan application has been received.We will inform you about loan status in future.").build();
     }
 

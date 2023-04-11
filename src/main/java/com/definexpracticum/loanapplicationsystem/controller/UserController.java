@@ -3,6 +3,7 @@ package com.definexpracticum.loanapplicationsystem.controller;
 import com.definexpracticum.loanapplicationsystem.dto.response.UserResponse;
 import com.definexpracticum.loanapplicationsystem.service.UserService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,10 +15,10 @@ import java.util.*;
 @RestController
 @SecurityRequirement(name = "Bearer Authentication")
 @RequestMapping("/api/v1")
+@RequiredArgsConstructor
 public class UserController {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 
     @GetMapping("/users")
     public @NotNull ResponseEntity<List<UserResponse>> getAllUsers() {

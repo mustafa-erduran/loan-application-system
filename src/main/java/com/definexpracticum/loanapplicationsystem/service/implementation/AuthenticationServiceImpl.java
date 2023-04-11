@@ -10,10 +10,10 @@ import com.definexpracticum.loanapplicationsystem.repository.UserRepository;
 import com.definexpracticum.loanapplicationsystem.service.AuthenticationService;
 import com.definexpracticum.loanapplicationsystem.service.JwtService;
 import com.definexpracticum.loanapplicationsystem.service.LoanScoreService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -21,24 +21,14 @@ import org.springframework.stereotype.Service;
 
 @Log4j2
 @Service
-public class AuthenticationServiceImpl implements AuthenticationService {
+@RequiredArgsConstructor
+public record AuthenticationServiceImpl(UserRepository repository,
+                                        PasswordEncoder passwordEncoder,
+                                        JwtService jwtService,
+                                        AuthenticationManager authenticationManager,
+                                        LoanScoreService loanScoreService) implements AuthenticationService {
 
     private static final Logger logger = LoggerFactory.getLogger(AuthenticationServiceImpl.class);
-
-    @Autowired
-    private UserRepository repository;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    @Autowired
-    private JwtService jwtService;
-
-    @Autowired
-    private AuthenticationManager authenticationManager;
-
-    @Autowired
-    private LoanScoreService loanScoreService;
 
     @Override
     public RegisterResponse register(RegisterRequest registerRequest) {
